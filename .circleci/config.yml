@@ -509,11 +509,12 @@ step-electron-build: &step-electron-build
         rm -f src/out/Default/libffmpeg.so
       fi
       cd src
-      if  [ "$TARGET_ARCH" == "arm64" ] &&[ "`uname`" == "Darwin" ]; then
-        diskutil erasevolume HFS+ "xcode_disk" `hdiutil attach -nomount ram://12582912`
-        mv /Applications/Xcode-12.beta.4.app /Volumes/xcode_disk/
-        ln -s /Volumes/xcode_disk/Xcode-12.beta.4.app /Applications/Xcode-12.beta.4.app
-      fi
+      # Enable if things get really bad
+      # if  [ "$TARGET_ARCH" == "arm64" ] &&[ "`uname`" == "Darwin" ]; then
+      #   diskutil erasevolume HFS+ "xcode_disk" `hdiutil attach -nomount ram://12582912`
+      #   mv /Applications/Xcode-12.beta.5.app /Volumes/xcode_disk/
+      #   ln -s /Volumes/xcode_disk/Xcode-12.beta.5.app /Applications/Xcode-12.beta.5.app
+      # fi
       if [ "$USE_PREBUILT_V8_CONTEXT_SNAPSHOT" == "1" ]; then
         ninja -C out/Default electron:electron_mksnapshot_zip -j $NUMBER_OF_NINJA_PROCESSES
         gn desc out/Default v8:run_mksnapshot_default args > out/Default/mksnapshot_args
